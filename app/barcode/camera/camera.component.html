@@ -1,15 +1,15 @@
 <ActionBar title="camera" class="action-bar"></ActionBar>
 <ScrollView>
-    <FlexboxLayout flexDirection="column-reverse">
-        <Image [src]="imageTaken" flexGrow="3" class="p-15 img-rounded"></Image>
-        <Button text="Take Photo" *ngIf="!cameraAvailable" class="btn btn-primary btn-active" (tap)="onTakePhoto()"
+    <FlexboxLayout flexDirection="column-reverse" *ngIf="cameraAvailable">
+        <Image [src]="imageTaken" flexGrow="2" class="p-15 img-rounded"></Image>
+        <Button text="TAKE PHONE" class="btn btn-primary btn-active" (tap)="onTakePhoto()"
+                flexGrow="0"></Button>
+        <Button text="SCAN YOUR BARCODE" class="btn btn-primary btn-active" (tap)="onScan()"
                 flexGrow="1"></Button>
-        <Button text="Request permissions" *ngIf="!cameraAvailable" class="btn btn-primary btn-active"
-                (tap)="onRequestPermissions()" flexGrow="1"></Button>
-        <Button text="SCAN YOUR BARCODE" *ngIf="!cameraAvailable" class="btn btn-primary btn-active" (tap)="onScan()"
-                flexGrow="2"></Button>
     </FlexboxLayout>
-    <StackLayout>
-    <Label *ngIf="cameraAvailable" textAlignment="center" class="font-weight-bold" text="Camera is not Available"></Label>
+    <StackLayout *ngIf="!cameraAvailable">
+        <Button text="Request permissions" class="btn btn-primary btn-active"
+                (tap)="onCheckingCamera()" flexGrow="3"></Button>
+        <Label textAlignment="center" class="font-w" text="Camera is not Available"></Label>
     </StackLayout>
 </ScrollView>

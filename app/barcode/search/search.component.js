@@ -7,38 +7,42 @@ var SearchComponent = (function () {
     function SearchComponent(validator, page) {
         this.validator = validator;
         this.page = page;
+        this.isSearching = false;
         this.code$ = new Subject_1.Subject();
     }
     ;
     SearchComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.focusTextfield();
         this.validator.doSearchbyCode(this.code$)
             .subscribe(function (result) { return _this.onGetDataSuccess(result); }, function (error) { return _this.onGetDataError(error); });
     };
     SearchComponent.prototype.showAlert = function (result) {
-        alert("Text: " + result);
+        alert("Result: " + result);
+    };
+    SearchComponent.prototype.submit = function (result) {
+        alert("Result: " + result);
+    };
+    SearchComponent.prototype.onSearching = function (code) {
+        var _this = this;
+        this.isSearching = true;
+        this.validator.rawSearchByCode(code)
+            .subscribe(function (result) { return _this.onGetDataSuccess(result); }, function (error) { return _this.onGetDataError(error); });
     };
     SearchComponent.prototype.focusTextfield = function () {
         this.barcodeText.nativeElement.focus();
         var firstTextfield = this.page.getViewById("textBarcode");
         firstTextfield.focus();
     };
-    SearchComponent.prototype.startBackgroundAnimation = function (background) {
-        background.animate({
-            scale: {
-                x: 1.0,
-                y: 1.0
-            },
-            duration: 10000
-        });
-    };
     SearchComponent.prototype.onGetDataSuccess = function (res) {
         this.showAlert(res);
+        this.isSearching = false;
     };
     SearchComponent.prototype.onGetDataError = function (error) {
         var body = error.json() || "";
         var err = body.error || JSON.stringify(body);
         this.showAlert("An Error! " + err.json().error);
+        this.isSearching = false;
     };
     __decorate([
         core_1.ViewChild('barcodeText'), 

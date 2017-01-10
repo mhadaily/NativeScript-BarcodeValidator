@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import * as camera from "nativescript-camera";
 import { BarcodeScanner } from "nativescript-barcodescanner";
 import { ImageAsset } from "image-asset";
+import { BarcodeValidatorService } from "../validator.services";
 
 @Component({
 	moduleId: module.id,
@@ -10,7 +11,7 @@ import { ImageAsset } from "image-asset";
 })
 export class CameraComponent implements OnInit {
 	
-	constructor(private barcodeScanner: BarcodeScanner) {
+	constructor(private barcodeScanner: BarcodeScanner, private validator: BarcodeValidatorService) {
 	}
 	
 	public cameraAvailable: boolean = false;
@@ -21,12 +22,25 @@ export class CameraComponent implements OnInit {
 	public height: number = 300;
 	
 	ngOnInit() {
-		this.barcodeScanner.available().then((res) => {
-					console.log("Is camera hardware available: " + res);
+		
+	}
+	
+	onCheckingCamera(){
+		this.barcodeScanner.available().then(() => {
 					this.cameraAvailable = true;
+					this.onGetPermission();
 				}
 		).catch((e) => {
 			alert('Camera is not Available ' + e);
+		});
+	}
+	
+	onGetPermission() {
+		this.barcodeScanner.hasCameraPermission().then(() => {
+			console.log('Thank you , we are ready to can now');
+		}).catch((e) => {
+			console.log(e);
+			this.onRequestPermissions();
 		});
 	}
 	
@@ -56,28 +70,18 @@ export class CameraComponent implements OnInit {
 	}
 	
 	onScan() {
-		this.barcodeScanner.hasCameraPermission().then(() => {
-					this.barcodeScanner.scan({
-						//Android only "DATA_MATRIX, CODABAR, MAXICODE, ITF, RSS_14, UPC_A]
-						formats: "CODE_39, CODE_93, CODE_128, EAN_8, EAN_13, QR_CODE, UPC_E, AZTEC, PDF_417",
-						showFlipCameraButton: true,
-						preferFrontCamera: false,
-						showTorchButton: true,
-						torchOn: false,
-					}).then((result) => {
-								alert({
-									title: "Scan result",
-									message: "Format: " + result.format + ",\nValue: " + result.text,
-									okButtonText: "OK"
-								});
-							}, (errorMessage) => {
-								console.log("No scan. " + errorMessage);
-							}
-					);
+		this.barcodeScanner.scan({
+			//Android only "DATA_MATRIX, CODABAR, MAXICODE, ITF, RSS_14, UPC_A]
+			formats: "CODE_39, CODE_93, CODE_128, EAN_8, EAN_13, QR_CODE, UPC_E, AZTEC, PDF_417",
+			showFlipCameraButton: true,
+			preferFrontCamera: false,
+			showTorchButton: true,
+			torchOn: false,
+		}).then((result) => {
+					this.validator.rawSearchByCode(result.text).subscribe(res => alert(res));
+				}, (errorMessage) => {
+					alert("No scan. " + errorMessage);
 				}
-		).catch((e) => {
-			console.log(e);
-			this.onRequestPermissions();
-		});
+		);
 	}
 }

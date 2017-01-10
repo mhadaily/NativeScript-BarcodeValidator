@@ -2,9 +2,11 @@
 var core_1 = require("@angular/core");
 var camera = require("nativescript-camera");
 var nativescript_barcodescanner_1 = require("nativescript-barcodescanner");
+var validator_services_1 = require("../validator.services");
 var CameraComponent = (function () {
-    function CameraComponent(barcodeScanner) {
+    function CameraComponent(barcodeScanner, validator) {
         this.barcodeScanner = barcodeScanner;
+        this.validator = validator;
         this.cameraAvailable = false;
         this.saveToGallery = true;
         this.keepAspectRatio = true;
@@ -12,12 +14,23 @@ var CameraComponent = (function () {
         this.height = 300;
     }
     CameraComponent.prototype.ngOnInit = function () {
+    };
+    CameraComponent.prototype.onCheckingCamera = function () {
         var _this = this;
-        this.barcodeScanner.available().then(function (res) {
-            console.log("Is camera hardware available: " + res);
+        this.barcodeScanner.available().then(function () {
             _this.cameraAvailable = true;
+            _this.onGetPermission();
         }).catch(function (e) {
             alert('Camera is not Available ' + e);
+        });
+    };
+    CameraComponent.prototype.onGetPermission = function () {
+        var _this = this;
+        this.barcodeScanner.hasCameraPermission().then(function () {
+            console.log('Thank you , we are ready to can now');
+        }).catch(function (e) {
+            console.log(e);
+            _this.onRequestPermissions();
         });
     };
     CameraComponent.prototype.onTakePhoto = function () {
@@ -43,26 +56,17 @@ var CameraComponent = (function () {
     };
     CameraComponent.prototype.onScan = function () {
         var _this = this;
-        this.barcodeScanner.hasCameraPermission().then(function () {
-            _this.barcodeScanner.scan({
-                //Android only "DATA_MATRIX, CODABAR, MAXICODE, ITF, RSS_14, UPC_A]
-                formats: "CODE_39, CODE_93, CODE_128, EAN_8, EAN_13, QR_CODE, UPC_E, AZTEC, PDF_417",
-                showFlipCameraButton: true,
-                preferFrontCamera: false,
-                showTorchButton: true,
-                torchOn: false,
-            }).then(function (result) {
-                alert({
-                    title: "Scan result",
-                    message: "Format: " + result.format + ",\nValue: " + result.text,
-                    okButtonText: "OK"
-                });
-            }, function (errorMessage) {
-                console.log("No scan. " + errorMessage);
-            });
-        }).catch(function (e) {
-            console.log(e);
-            _this.onRequestPermissions();
+        this.barcodeScanner.scan({
+            //Android only "DATA_MATRIX, CODABAR, MAXICODE, ITF, RSS_14, UPC_A]
+            formats: "CODE_39, CODE_93, CODE_128, EAN_8, EAN_13, QR_CODE, UPC_E, AZTEC, PDF_417",
+            showFlipCameraButton: true,
+            preferFrontCamera: false,
+            showTorchButton: true,
+            torchOn: false,
+        }).then(function (result) {
+            _this.validator.rawSearchByCode(result.text).subscribe(function (res) { return alert(res); });
+        }, function (errorMessage) {
+            alert("No scan. " + errorMessage);
         });
     };
     CameraComponent = __decorate([
@@ -71,7 +75,7 @@ var CameraComponent = (function () {
             selector: "app-camera",
             templateUrl: "camera.component.html",
         }), 
-        __metadata('design:paramtypes', [nativescript_barcodescanner_1.BarcodeScanner])
+        __metadata('design:paramtypes', [nativescript_barcodescanner_1.BarcodeScanner, validator_services_1.BarcodeValidatorService])
     ], CameraComponent);
     return CameraComponent;
 }());

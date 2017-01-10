@@ -11,6 +11,7 @@ import { Page } from "ui/page";
 })
 export class SearchComponent implements OnInit {
 	public message: any;
+	public isSearching: boolean = false;
 	@ViewChild('barcodeText') barcodeText: ElementRef;
 	
 	constructor(private validator: BarcodeValidatorService, private page: Page) {};
@@ -18,6 +19,7 @@ export class SearchComponent implements OnInit {
 	code$ = new Subject<any>();
 	
 	ngOnInit() {
+		this.focusTextfield();
 		this.validator.doSearchbyCode(this.code$)
 		    .subscribe(
 				    (result) => this.onGetDataSuccess(result),
@@ -26,7 +28,20 @@ export class SearchComponent implements OnInit {
 	}
 	
 	public showAlert(result) {
-		alert("Text: " + result);
+		alert("Result: " + result);
+	}
+	
+	submit(result) {
+		alert("Result: " + result);
+	}
+	
+	onSearching(code) {
+		this.isSearching = true;
+		this.validator.rawSearchByCode(code)
+		    .subscribe(
+				    (result) => this.onGetDataSuccess(result),
+				    (error) => this.onGetDataError(error)
+		    );
 	}
 	
 	focusTextfield() {
@@ -35,25 +50,16 @@ export class SearchComponent implements OnInit {
 		firstTextfield.focus();
 	}
 	
-	startBackgroundAnimation(background) {
-		background.animate({
-			scale: {
-				x: 1.0,
-				y: 1.0
-			},
-			duration: 10000
-		});
-	}
-	
-	
 	private onGetDataSuccess(res) {
 		this.showAlert(res);
+		this.isSearching = false;
 	}
 	
 	private onGetDataError(error: Response | any) {
 		const body = error.json() || "";
 		const err = body.error || JSON.stringify(body);
 		this.showAlert(`An Error! ${err.json().error}`);
+		this.isSearching = false;
 	}
 	
 }
