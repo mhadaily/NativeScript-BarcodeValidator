@@ -13,4 +13,3 @@ exports.ROUTE = [
         children: barcode_route_1.BARCODE_ROUTE
     },
 ];
-//# sourceMappingURL=app.route.js.map

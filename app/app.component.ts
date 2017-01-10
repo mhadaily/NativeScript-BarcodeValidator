@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 
 @Component({
-    selector: "my-app",
-    templateUrl: "app.component.html",
+	selector: "my-app",
+	template: `<StackLayout id="layoutBackgroundImageFromFolder"><page-router-outlet></page-router-outlet></StackLayout>`,
 })
 export class AppComponent {
 }

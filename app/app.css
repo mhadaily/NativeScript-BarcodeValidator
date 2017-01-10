@@ -18,3 +18,27 @@ of writing your own CSS rules. For a full list of class names in the theme
 refer to http://docs.nativescript.org/ui/theme.
 */
 @import 'nativescript-theme-core/css/core.light.css';
+
+TextField, Label {
+    margin-top: 20;
+    vertical-align: center;
+    font-size: 17;
+    padding: 20;
+}
+
+.background {
+    background-image: url('res://bg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+#layoutBackgroundImageFromFolder{
+    background-image: url("~/images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+ActionBar {
+    background-color: black;
+    color: white;
+}

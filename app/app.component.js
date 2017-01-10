@@ -6,11 +6,10 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: "my-app",
-            templateUrl: "app.component.html",
+            template: "<StackLayout id=\"layoutBackgroundImageFromFolder\"><page-router-outlet></page-router-outlet></StackLayout>",
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
