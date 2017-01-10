@@ -1,6 +1,16 @@
-<ActionBar title="Search" class="action-bar">
-
-</ActionBar>
+<ActionBar title="Barcode Reader" class="action-bar"></ActionBar>
 <StackLayout>
-
+    <StackLayout class="form">
+        <StackLayout>
+            <Label class="label" text="Instant Search" textAlignment="center" textWrap="true" marginBottom="5"></Label>
+            <TextField #barcodeText
+                       returnKeyType="search"
+                       (returnPress)="focusTextfield()"
+                       class="p-10 input input-border font-weight-bold"
+                       backgroundColor="white"
+                       id="textBarcode"
+                       hint="Enter your code" autocorrect="false"
+                       (textChange)="code$.next(barcodeText)"></TextField>
+        </StackLayout>
+    </StackLayout>
 </StackLayout>
