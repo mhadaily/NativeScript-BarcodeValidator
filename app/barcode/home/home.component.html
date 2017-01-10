@@ -1,0 +1,11 @@
+<StackLayout>
+    <GridLayout rows="auto" columns="*,*,*">
+        <Button text="Search" nsRouterLink="/barcode" class="btn btn-primary btn-active" row="0" col="0"></Button>
+        <Button text="Camera" nsRouterLink="/barcode/camera" class="btn btn-primary btn-active" row="0" col="1"></Button>
+        <Button text="Upload" nsRouterLink="/barcode/upload" class="btn btn-primary btn-active" row="0" col="2"></Button>
+    </GridLayout>
+
+    <StackLayout>
+        <router-outlet></router-outlet>
+    </StackLayout>
+</StackLayout>
