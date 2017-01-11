@@ -1,6 +1,8 @@
 ## NativeScript-BarcodeValidator
 
 
+![](https://www.majidhajian.com/images/barcodeValidator.gif)
+
 
 ###Development
 
@@ -38,11 +40,13 @@ $ tns livesync ios --emulator --watch
 $ tns livesync android --emulator --watch
 ```
 
-###Linting
+###Debugging
 
-This app uses [tslint](https://www.npmjs.com/package/tslint) + [codelyzer](https://github.com/mgechev/codelyzer) rules to ensure the code follows the [angular style guide](https://angular.io/docs/ts/latest/guide/style-guide.html).
 
-You can run the linter with the `tslint` npm script:
+You can run the debugger:
 ```
-$ npm run tslint
+$ tns debug ios --emulator --watch
+```
+```
+$ tns debug android --emulator --watch
 ```
