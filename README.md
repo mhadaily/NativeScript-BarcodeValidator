@@ -1,7 +1,7 @@
 ## NativeScript-BarcodeValidator
 
 
-![](https://www.majidhajian.com/images/barcodeValidator.gif)
+<img src="https://www.majidhajian.com/images/barcodeValidator.gif"  style="width: 200px;"/>
 
 
 ###Development
