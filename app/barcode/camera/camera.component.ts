@@ -25,7 +25,7 @@ export class CameraComponent implements OnInit {
 		
 	}
 	
-	onCheckingCamera(){
+	onCheckingCamera() {
 		this.barcodeScanner.available().then(() => {
 					this.cameraAvailable = true;
 					this.onGetPermission();
@@ -78,7 +78,10 @@ export class CameraComponent implements OnInit {
 			showTorchButton: true,
 			torchOn: false,
 		}).then((result) => {
-					this.validator.rawSearchByCode(result.text).subscribe(res => alert(res));
+					this.validator.rawSearchByCode(result.text).subscribe(
+							(result) => alert(result),
+							(error) => alert(error.json().error)
+					);
 				}, (errorMessage) => {
 					alert("No scan. " + errorMessage);
 				}

@@ -55,10 +55,8 @@ export class SearchComponent implements OnInit {
 		this.isSearching = false;
 	}
 	
-	private onGetDataError(error: Response | any) {
-		const body = error.json() || "";
-		const err = body.error || JSON.stringify(body);
-		this.showAlert(`An Error! ${err.json().error}`);
+	private onGetDataError(error) {
+		this.showAlert(`An Error! ${error.json().error}`);
 		this.isSearching = false;
 	}
 	

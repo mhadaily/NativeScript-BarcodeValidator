@@ -2,7 +2,7 @@
 <ScrollView>
     <FlexboxLayout flexDirection="column-reverse" *ngIf="cameraAvailable">
         <Image [src]="imageTaken" flexGrow="2" class="p-15 img-rounded"></Image>
-        <Button text="TAKE PHONE" class="btn btn-primary btn-active" (tap)="onTakePhoto()"
+        <Button text="TAKE PHOTO" class="btn btn-primary btn-active" (tap)="onTakePhoto()"
                 flexGrow="0"></Button>
         <Button text="SCAN YOUR BARCODE" class="btn btn-primary btn-active" (tap)="onScan()"
                 flexGrow="1"></Button>

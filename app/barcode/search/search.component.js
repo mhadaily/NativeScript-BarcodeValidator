@@ -39,9 +39,7 @@ var SearchComponent = (function () {
         this.isSearching = false;
     };
     SearchComponent.prototype.onGetDataError = function (error) {
-        var body = error.json() || "";
-        var err = body.error || JSON.stringify(body);
-        this.showAlert("An Error! " + err.json().error);
+        this.showAlert("An Error! " + error.json().error);
         this.isSearching = false;
     };
     __decorate([

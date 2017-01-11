@@ -64,7 +64,7 @@ var CameraComponent = (function () {
             showTorchButton: true,
             torchOn: false,
         }).then(function (result) {
-            _this.validator.rawSearchByCode(result.text).subscribe(function (res) { return alert(res); });
+            _this.validator.rawSearchByCode(result.text).subscribe(function (result) { return alert(result); }, function (error) { return alert(error.json().error); });
         }, function (errorMessage) {
             alert("No scan. " + errorMessage);
         });
